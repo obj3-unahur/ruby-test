@@ -28,16 +28,21 @@ Una parte fundamental de cualquier framework de testing es la posibilidad de des
 Para comenzar, debemos poder determinar si un objeto es igual a un valor esperado. Para esto debemos hacer que todos los objetos comprendan el mensaje `deberia_ser(valor_esperado)`. Este mensaje tiene que recibir por parámetro el valor esperado para poder realizar la comparación.
 Vale aclarar que si el valor_esperado es una clase, se debe chequear que el árbol de herencia del objeto a ser testeado contenga la clase pasada como parámetro.
 
+Al ejecutar el método `deberia_ser` se desea obtener información sobre el test que se corrió y su resultado para mostrar por pantalla. Si bien la consola muestra strings con los resultados; se recomienda modelar la ejecución y resultados con objetos de alto nivel, y no concatenando strings.
+
 ```
 7.deberia_ser 7 # Pasa.
+=> 7 es 7
 true.deberia_ser false # Falla.
+=> Se esperaba false y el valor fue true
 bicicleta.ruedas.deberia_ser 4 # Falla: bicicleta tiene 2 ruedas.
+=> Se esperaba 4 y el valor fue 2
 
 7.deberia_ser Integer # Pasa.
+=> 7 es un Integer
 bicicleta.deberia_ser Object # Pasa.
+=> #<Bicicleta:0x0000021b93c49040> es un Object
 ```
-
-Al ejecutar el método `deberia_ser` se desea obtener información sobre el test que se corrió y su resultado para mostrar por pantalla. Si bien la consola muestra strings con los resultados; se recomienda modelar la ejecución y resultados con objetos de alto nivel, y no concatenando strings.
 
 ### Etapa 2
 
@@ -75,6 +80,8 @@ Queremos poder crear una aserción que verifique que un objeto sea el esperado, 
 #### Entender
 
 En lenguajes dinámicos, como Ruby, los programas pueden modificar las interfaces de los objetos en tiempo de ejecución. Es por eso que a veces resulta necesario testear si un objeto entiende o no cierto mensaje, como así también chequear la cantidad de parámetros con los que hay que invocarlo.
+
+Una aclaración sobre este punto es que por default el método `entender` no recibe el número de parámetros a chequear, y si recibe un número (mayo o igual a 0), debe coincidir la cantidad de parámetros del método con el número pasado como parámetro.
 
 ```
 class Persona
