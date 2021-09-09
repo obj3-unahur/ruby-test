@@ -30,11 +30,16 @@ Vale aclarar que si el valor_esperado es una clase, se debe chequear que el árb
 
 ```ruby
 7.deberia_ser 7 # Pasa.
+=> 7 es 7
 true.deberia_ser false # Falla.
+=> Se esperaba true y el valor fue false
 bicicleta.ruedas.deberia_ser 4 # Falla: bicicleta tiene 2 ruedas.
+=> Se esperaba 4 y el valor fue 2
 
 7.deberia_ser Integer # Pasa.
+=> 7 es un Integer
 bicicleta.deberia_ser Object # Pasa.
+=> #<Bicicleta:0x0156f2fw> es un Object
 ```
 
 Al ejecutar el método `deberia_ser` se desea obtener información sobre el test que se corrió y su resultado para mostrar por pantalla. Si bien la consola muestra strings con los resultados; se recomienda modelar la ejecución y resultados con objetos de alto nivel, y no concatenando strings.
@@ -75,6 +80,8 @@ Queremos poder crear una aserción que verifique que un objeto sea el esperado, 
 #### Entender
 
 En lenguajes dinámicos, como Ruby, los programas pueden modificar las interfaces de los objetos en tiempo de ejecución. Es por eso que a veces resulta necesario testear si un objeto entiende o no cierto mensaje, como así también chequear la cantidad de parámetros con los que hay que invocarlo.
+
+Una aclaración respecto a este punto es que por defecto el método `entender` no recibe parámetros. Solamente si recibe un número (mayor o igual a 0) es que se chequea que el método reciba la misma cantidad de parámetros que el número que se pasa como parámetro. 
 
 ```ruby
 class Persona
@@ -142,10 +149,10 @@ end
 La estructura de Tests y Suites es importante porque queremos tener una forma estandarizada para poder correr los tests. Para esto debe ser posible correr todos los tests de una Clase, como así también correr tests en particular. Para esto el Framework debe contar con la siguiente forma de poder realizar lo pedido:
 
 ```ruby
-# Corre todos los tests de la suite MiSuite
-> Tester.testear MiSuite
-# Corre los tests :testear_que_una_cosa, :testear_que_otra_cosa y cualquier otro test de la suite MiSuite cuyo nombre se pase por parámetro
-> Tester.testear MiSuite, :una_cosa, :otra_cosa, etc...
+# Correr todos los tests de la suite MiSuite
+Tester.testear MiSuite
+# Correr los tests :testear_que_una_cosa, :testear_que_otra_cosa y cualquier otro test de la suite MiSuite cuyo nombre se pase por parámetro
+Tester.testear MiSuite, :una_cosa, :otra_cosa, etc...
 ```
 
 Al correr los tests correspondientes al llamado de `testear`, se debe informar la cantidad de tests corridos, cantidad y nombre de tests pasados, y cantidad y nombres de tests fallados. De estos últimos se debe informar de la manera más clara posible qué se esperaba y qué valor se obtuvo.
